@@ -1,3 +1,1 @@
-# lerna-cli
-
-#
+# panda-cli

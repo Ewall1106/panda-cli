@@ -30,6 +30,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@panda-cli/utils": "^1.0.1"
+    "@panda-cli/utils": "file:../../utils/utils"
   }
 }
