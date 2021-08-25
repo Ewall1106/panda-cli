@@ -1,6 +1,6 @@
 {
   "name": "@panda-cli/core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "> TODO: description",
   "author": "熊猫 <1054064180@qq.com>",
   "homepage": "https://github.com/Ewall1106/lerna-cli/tree/main/packages/core#readme",
@@ -30,6 +30,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@panda-cli/utils": "^1.0.0"
+    "@panda-cli/utils": "^1.0.1"
   }
 }
