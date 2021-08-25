@@ -1,9 +1,9 @@
 {
-  "name": "@panda-cli/utils",
+  "name": "@panda-cli/logs",
   "version": "1.0.1",
   "description": "> TODO: description",
   "author": "熊猫 <1054064180@qq.com>",
-  "homepage": "https://github.com/Ewall1106/lerna-cli/tree/main/packages/utils#readme",
+  "homepage": "https://github.com/Ewall1106/lerna-cli/tree/main/core/logs#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -25,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/Ewall1106/panda-cli/issues"
+  },
+  "dependencies": {
+    "npmlog": "^5.0.0"
   }
 }

@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-console.log('>>>>')
-const utils = require('@panda-cli/utils');
+const utils = require("@panda-cli/utils");
+const importLocal = require("import-local");
+const log = require("npmlog");
 
-utils()
+if (importLocal(__filename)) {
+  log.info("cli", "Using local version of this package");
+} else {
+  require("../lib")(process.argv.slice(2));
+}
