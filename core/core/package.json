@@ -30,9 +30,11 @@
     "url": "https://github.com/Ewall1106/panda-cli/issues"
   },
   "dependencies": {
-    "@panda-cli/utils": "file:../../utils/utils",
     "@panda-cli/logs": "file:../../utils/logs",
+    "@panda-cli/utils": "file:../../utils/utils",
+    "colors": "^1.4.0",
     "import-local": "^3.0.2",
-    "npmlog": "^5.0.0"
+    "npmlog": "^5.0.0",
+    "semver": "^7.3.5"
   }
 }
