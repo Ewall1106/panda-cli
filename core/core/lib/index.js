@@ -5,17 +5,21 @@ const colors = require('colors')
 const rootCheck = require('root-check')
 const userHome = require('user-home')
 const pathExists = require('path-exists').sync
+const argv = require('minimist')(process.argv.slice(2))
 
 const pkg = require('../package.json')
 const logs = require('@panda-cli/logs')
 const constant = require('./const')
 
+// 主流程
 function core() {
   try {
     checkVersion()
     checkNodeVersion()
     checkRoot()
     checkUserHome()
+    checkArgs()
+    logs.verbose('debug', 'test debug log')
   } catch (error) {
     logs.error(error.message)
   }
@@ -46,6 +50,14 @@ function checkRoot() {
 function checkUserHome() {
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red('当前登录用户主目录不存在！'))
+  }
+}
+
+// 检查入参及开启debug模式
+function checkArgs() {
+  if (argv.debug) {
+    process.env.LOWEST_NODE_VERSION = 'verbose'
+    logs.level = 'verbose'
   }
 }
 
