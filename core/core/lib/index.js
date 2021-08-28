@@ -1,9 +1,11 @@
 'use strict'
 
+const path = require('path')
 const semver = require('semver')
 const colors = require('colors')
 const rootCheck = require('root-check')
 const userHome = require('user-home')
+const dotenv = require('dotenv')
 const pathExists = require('path-exists').sync
 const argv = require('minimist')(process.argv.slice(2))
 
@@ -19,7 +21,7 @@ function core() {
     checkRoot()
     checkUserHome()
     checkArgs()
-    logs.verbose('debug', 'test debug log')
+    checkEnv()
   } catch (error) {
     logs.error(error.message)
   }
@@ -59,6 +61,30 @@ function checkArgs() {
     process.env.LOWEST_NODE_VERSION = 'verbose'
     logs.level = 'verbose'
   }
+}
+
+// 检查环境变量
+function checkEnv() {
+  let config
+  const dotenvPath = path.resolve(userHome, '.env')
+  if (pathExists(dotenvPath)) {
+    config = dotenv.config({ path: dotenvPath }) // 将环境变量从主目录的 .env 文件加载到 process.env 中
+  }
+  createDefaultConfig()
+  logs.verbose('123', process.env.CLI_HOME_PATH)
+}
+
+// 创建默认的环境变量（这里设置的是主目录的环境变量，其实大可不必，完全可以读cwd根目录中的环境变量）
+function createDefaultConfig() {
+  const cliConfig = {
+    home: userHome
+  }
+  if (process.env.CLI_HOME) {
+    cliConfig['cliHome'] = path.join(userHome, process.env.CLI_HOME)
+  } else {
+    cliConfig['cliHome'] = path.join(userHome, constant.DEFAULT_CLI_HOME)
+  }
+  process.env.CLI_HOME_PATH = cliConfig.cliHome
 }
 
 module.exports = core
