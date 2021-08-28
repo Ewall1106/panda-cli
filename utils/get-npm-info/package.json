@@ -1,9 +1,9 @@
 {
-  "name": "@panda-cli/logs",
+  "name": "@panda-cli/get-npm-info",
   "version": "1.0.1",
   "description": "> TODO: description",
-  "author": "熊猫 <1054064180@qq.com>",
-  "homepage": "https://github.com/Ewall1106/lerna-cli/tree/main/utils/logs#readme",
+  "author": "xiongwei",
+  "homepage": "https://github.com/Ewall1106/lerna-cli/tree/main/utils/get-npm-info#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "access": "public"
+    "registry": "https://registry.npm.taobao.org/"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,8 @@
     "url": "https://github.com/Ewall1106/panda-cli/issues"
   },
   "dependencies": {
-    "npmlog": "^5.0.0"
+    "axios": "^0.21.1",
+    "semver": "^7.3.5",
+    "url-join": "^4.0.1"
   }
 }

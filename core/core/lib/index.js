@@ -9,12 +9,13 @@ const dotenv = require('dotenv')
 const pathExists = require('path-exists').sync
 const argv = require('minimist')(process.argv.slice(2))
 
+const constant = require('./const')
 const pkg = require('../package.json')
 const logs = require('@panda-cli/logs')
-const constant = require('./const')
+const { getNpmInfo } = require('@panda-cli/get-npm-info')
 
 // 主流程
-function core() {
+async function core() {
   try {
     checkVersion()
     checkNodeVersion()
@@ -22,6 +23,7 @@ function core() {
     checkUserHome()
     checkArgs()
     checkEnv()
+    await checkGlobalUpdate()
   } catch (error) {
     logs.error(error.message)
   }
@@ -72,6 +74,29 @@ function checkEnv() {
   }
   createDefaultConfig()
   logs.verbose('123', process.env.CLI_HOME_PATH)
+}
+
+// 检查本地是否是最新版本
+async function checkGlobalUpdate() {
+  // 1. 获取当前版本号和模块名
+  const npmName = pkg.name
+  const currentVersion = pkg.version
+  // 2. 调用 Npm API，获取所有版本号
+  const { versions = {} } = await getNpmInfo(npmName)
+  // 3. 提取所有版本号，比对那些版本号是大于当前版本号
+  const versionsList = Object.keys(versions)
+  // 4. 获取最新版本号，提示用户更新到该版本
+  if (versionsList && versionsList.length) {
+    const flag = semver.gte(currentVersion, versionsList[0])
+    if (!flag) {
+      logs.warn(
+        colors.yellow(
+          `请更新 ${npmName} 到最新版本，最新版本为${versionsList[0]}，当前版本为${currentVersion}`
+        )
+      )
+      process.exit()
+    }
+  }
 }
 
 // 创建默认的环境变量（这里设置的是主目录的环境变量，其实大可不必，完全可以读cwd根目录中的环境变量）

@@ -32,6 +32,7 @@
   "dependencies": {
     "@panda-cli/logs": "file:../../utils/logs",
     "@panda-cli/utils": "file:../../utils/utils",
+    "@panda-cli/get-npm-info": "file:../../utils/get-npm-info",
     "colors": "^1.4.0",
     "dotenv": "^10.0.0",
     "import-local": "^3.0.2",
