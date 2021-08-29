@@ -14,6 +14,9 @@ const pkg = require('../package.json')
 const logs = require('@panda-cli/logs')
 const { getNpmInfo } = require('@panda-cli/get-npm-info')
 
+const { Command } = require('commander')
+const program = new Command()
+
 // 主流程
 async function core() {
   try {
@@ -21,9 +24,10 @@ async function core() {
     checkNodeVersion()
     checkRoot()
     checkUserHome()
-    checkArgs()
+    // checkArgs()
     checkEnv()
     await checkGlobalUpdate()
+    registerCommand()
   } catch (error) {
     logs.error(error.message)
   }
@@ -31,7 +35,7 @@ async function core() {
 
 // 打印 package 版本
 function checkVersion() {
-  logs.info(pkg.version)
+  // logs.info(pkg.version)
 }
 
 // 比较 Node 版本
@@ -110,6 +114,39 @@ function createDefaultConfig() {
     cliConfig['cliHome'] = path.join(userHome, constant.DEFAULT_CLI_HOME)
   }
   process.env.CLI_HOME_PATH = cliConfig.cliHome
+}
+
+// 注册命令
+function registerCommand() {
+  // 全局配置（panda命令后面接--xxx则认为是选项，反之认为是命令）
+  program
+    .name('panda')
+    .usage('<command> [options]')
+    .version(pkg.version)
+    .option('-d, --debug', '是否开启调试模式', false)
+
+  // 监听debug命令
+  program.on('option:debug', () => {
+    process.env.LOWEST_NODE_VERSION = 'verbose'
+    logs.level = 'verbose'
+  })
+
+  // 监听
+  program.on('command:*', function (operands) {
+    const availableCommands = program.commands.map(cmd => cmd.name())
+    console.log(colors.red(`未知的命令:${operands[0]}`))
+    if (availableCommands && availableCommands.length) {
+      console.log(colors.green(`可用的命令:${availableCommands.join(' ')}`))
+    }
+    process.exitCode = 1
+  })
+
+  program.parse(process.argv)
+
+  // program.args 获取解析参数 要放在program.parse后面
+  if (program.args && program.args.length < 1) {
+    program.outputHelp()
+  }
 }
 
 module.exports = core
