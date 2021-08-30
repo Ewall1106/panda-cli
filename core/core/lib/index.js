@@ -7,7 +7,6 @@ const rootCheck = require('root-check')
 const userHome = require('user-home')
 const dotenv = require('dotenv')
 const pathExists = require('path-exists').sync
-const argv = require('minimist')(process.argv.slice(2))
 
 const constant = require('./const')
 const pkg = require('../package.json')
@@ -21,17 +20,20 @@ const program = new Command()
 // 主流程
 async function core() {
   try {
-    checkVersion()
-    checkNodeVersion()
-    checkRoot()
-    checkUserHome()
-    // checkArgs()
-    checkEnv()
-    await checkGlobalUpdate()
+    prepare()
     registerCommand()
   } catch (error) {
     logs.error(error.message)
   }
+}
+
+async function prepare() {
+  checkVersion()
+  checkNodeVersion()
+  checkRoot()
+  checkUserHome()
+  checkEnv()
+  await checkGlobalUpdate()
 }
 
 // 打印 package 版本
@@ -62,14 +64,6 @@ function checkUserHome() {
   }
 }
 
-// 检查入参及开启debug模式
-function checkArgs() {
-  if (argv.debug) {
-    process.env.LOWEST_NODE_VERSION = 'verbose'
-    logs.level = 'verbose'
-  }
-}
-
 // 检查环境变量
 function checkEnv() {
   let config
@@ -78,7 +72,6 @@ function checkEnv() {
     config = dotenv.config({ path: dotenvPath }) // 将环境变量从主目录的 .env 文件加载到 process.env 中
   }
   createDefaultConfig()
-  logs.verbose('123', process.env.CLI_HOME_PATH)
 }
 
 // 检查本地是否是最新版本
@@ -124,7 +117,8 @@ function registerCommand() {
     .name('panda')
     .usage('<command> [options]')
     .version(pkg.version)
-    .option('-d, --debug', '是否开启调试模式', false) // 这个只是注册选项
+    .option('-d, --debug', '是否开启调试模式', false) // 这个只是注册全局选项
+    .option('-tp, --targetPath <targetPath>', '是否指定本地调式文件路径', '') // 注册全局选项（每个命令都会有这个选项）
 
   // 注册命令
   program
@@ -139,6 +133,11 @@ function registerCommand() {
     logs.level = 'verbose'
   })
 
+  // 监听targetPath
+  program.on('option:targetPath', function (path) {
+    process.env.CLI_TARGET_PATH = path
+  })
+
   // 监听
   program.on('command:*', function (operands) {
     const availableCommands = program.commands.map(cmd => cmd.name())
@@ -151,7 +150,7 @@ function registerCommand() {
 
   program.parse(process.argv)
 
-  // program.args 获取解析参数 要放在program.parse后面
+  // program.args 获取解析参数 要放在program.parse后面。
   if (program.args && program.args.length < 1) {
     program.outputHelp()
   }
