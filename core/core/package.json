@@ -34,6 +34,7 @@
     "@panda-cli/logs": "file:../../utils/logs",
     "@panda-cli/utils": "file:../../utils/utils",
     "@panda-cli/init": "file:../../commands/init",
+    "@panda-cli/exec": "file:../exec",
     "colors": "^1.4.0",
     "commander": "^8.1.0",
     "dotenv": "^10.0.0",

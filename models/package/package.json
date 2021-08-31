@@ -1,0 +1,29 @@
+{
+  "name": "@panda-cli/package",
+  "version": "1.0.1",
+  "description": "> TODO: description",
+  "author": "xiongwei",
+  "homepage": "https://github.com/Ewall1106/lerna-cli/tree/main/models/package#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://npm.intra.xiaojukeji.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ewall1106/panda-cli.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/Ewall1106/panda-cli/issues"
+  }
+}

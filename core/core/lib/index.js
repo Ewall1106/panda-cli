@@ -12,6 +12,7 @@ const constant = require('./const')
 const pkg = require('../package.json')
 const logs = require('@panda-cli/logs')
 const init = require('@panda-cli/init')
+const exec = require('@panda-cli/exec')
 const { getNpmInfo } = require('@panda-cli/get-npm-info')
 
 const { Command } = require('commander')
@@ -125,7 +126,7 @@ function registerCommand() {
     .command('init [projectName]') // "<>"表示必填项 "[]"表示可选项
     .description('初始化项目')
     .option('-f, --force', '是否强制初始化项目') // 添加选项
-    .action(init)
+    .action(exec)
 
   // 监听debug命令
   program.on('option:debug', () => {
