@@ -27,6 +27,7 @@
     "url": "https://github.com/Ewall1106/panda-cli/issues"
   },
   "dependencies": {
-    "@panda-cli/package": "file:../../models/package"
+    "@panda-cli/package": "file:../../models/package",
+    "@panda-cli/logs": "file:../../utils/logs"
   }
 }
