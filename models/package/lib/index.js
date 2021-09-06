@@ -2,6 +2,7 @@
 
 const path = require('path')
 const pkgDir = require('pkg-dir')
+const npminstall = require('npminstall')
 const formatPath = require('@panda-cli/format-path')
 
 class Package {
@@ -21,7 +22,14 @@ class Package {
   exist() {}
 
   // 安装package
-  install() {}
+  install() {
+    npminstall({
+      root: this.targetPath,
+      storeDir: path.resolve(this.targetPath, 'node_modules'),
+      registry: 'https://registry.npm.taobao.org/',
+      pkgs: [{ name: this.packageName, version: this.packageVersion }]
+    })
+  }
 
   // 更新package
   update() {}

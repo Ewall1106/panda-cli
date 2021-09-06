@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@panda-cli/format-path": "file:../../utils/format-path",
+    "npminstall": "^4.11.0",
     "pkg-dir": "^5.0.0"
   }
 }
